@@ -976,8 +976,8 @@
 
       const textureLoader = new THREE.TextureLoader();
       
-      // Use local image file instead of remote URL
-      const earthTexture = textureLoader.load('./The_earth_at_night.jpg', 
+      // Use remote URL for the image file
+      const earthTexture = textureLoader.load('https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/The_earth_at_night.jpg/1280px-The_earth_at_night.jpg', 
         // Success callback
         function(texture) {
           console.log("Earth texture loaded successfully");
@@ -999,49 +999,12 @@
 
       function animate() {
         requestAnimationFrame(animate);
-        sphere.rotation.y += 0.001; // Slow down rotation
+        sphere.rotation.y += 0.01;
         renderer.render(scene, camera);
       }
-      
       animate();
-
-      if (typeof gsap !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-
-        gsap.utils.toArray('.text-container h2, .text-container table, .text-container p, .text-container .footnotes').forEach((element, index) => {
-          gsap.from(element, {
-            opacity: 0,
-            y: 60,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: element,
-              start: "top 90%", // Slightly earlier trigger
-              end: "top 20%",
-              scrub: 1.5 // Smoother scrub effect
-            }
-          });
-        });
-
-        gsap.to(sphere.rotation, {
-          y: Math.PI * 2,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".panel",
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
-          }
-        });
-      }
-
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
     } catch (error) {
-      console.error("Error initializing THREE.js scene:", error);
+      console.error('Error initializing THREE.js:', error);
     }
   }
 </script>
