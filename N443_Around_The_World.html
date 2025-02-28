@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Problem Set Alignment: A World of Standards</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.css">
+  <!-- Changed to a regular THREE.js library version instead of module format -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.1/backbone-min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.js"></script>
+
+  <style>
+    html, body { margin: 0; padding: 0; overflow-x: hidden; font-family: sans-serif; background-color: #f4f4f4; color: #333; }
+    canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; }
+    .panel { height: auto; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 60px 40px; box-sizing: border-box; }
+    .text-container { max-width: 900px; background: rgba(255,255,255,0.95); padding: 30px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); margin-bottom: 20px; }
+    .text-container h1, .text-container h2, .text-container h3 { color: #2c3e50; }
+    .text-container p, .text-container table, .text-container ul, .text-container ol { margin-bottom: 15px; line-height: 1.6; }
+    .text-container table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .text-container th, .text-container td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    .text-container th { background-color: #f2f2f2; }
+    .footnotes { margin-top: 20px; padding-top: 10px; border-top: 1px solid #eee; font-size: 0.9em; }
+    .footnote-link { vertical-align: super; font-size: smaller; text-decoration: none; color: inherit; }
+    a.footnote-link { color: #007bff; } /* Link color for footnote numbers */
+    .footnote-item { margin-bottom: 5px; }
+    h1 { text-align: center; margin-bottom: 30px; color: #3498db; }
+    h2 { color: #3498db; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 25px; }
+    h3 { color: #2e86c1; margin-top: 20px; }
+    .panel:first-child .text-container { text-align: center; }
+    .panel:last-child .text-container { margin-bottom: 0; }
+    
+    /* Table of Contents Styling */
+    .toc {
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      margin-bottom: 30px;
+      max-width: 900px;
+    }
+    .toc h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+    .toc ul {
+      columns: 2;
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 20px;
+    }
+    .toc li {
+      margin-bottom: 10px;
+      break-inside: avoid-column;
+    }
+    .toc a {
+      color: #2980b9;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+      display: inline-block;
+      width: 90%;
+    }
+    .toc a:hover {
+      background-color: #3498db;
+      color: white;
+    }
+    @media (max-width: 768px) {
+      .toc ul {
+        columns: 1;
+      }
+    }
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(52, 152, 219, 0.8);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 100;
+      font-size: 24px;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .scroll-to-top:hover {
+      background: rgba(41, 128, 185, 1);
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="sphereCanvas"></canvas>
+
+<div class="panel">
+  <div class="text-container">
+    <h1>Problem Set Alignments Across Educational Standards</h1>
+    <p>Explore how example problems are aligned with curriculum standards in various regions around the world and across different grade levels. Scroll down to journey through these educational landscapes.</p>
+  </div>
+  
+  <!-- Table of Contents -->
+  <div class="toc">
+    <h2>Table of Contents</h2>
+    <ul>
+      <li><a href="#pennsylvania">Pennsylvania Standards (1st Grade)</a></li>
+      <li><a href="#illinois-grades-1-3">Illinois Standards (Grades 1-3)</a></li>
+      <li><a href="#illinois-extended">Illinois Standards Extended (Grades 1-3)</a></li>
+      <li><a href="#irish">Irish Curriculum (Senior Infants)</a></li>
+      <li><a href="#kentucky">Kentucky Standards (1st Grade)</a></li>
+      <li><a href="#missouri">Missouri Standards (3rd & 4th Grade)</a></li>
+      <li><a href="#indiana-wyoming">Indiana & Wyoming Standards (Grade 2)</a></li>
+      <li><a href="#all-regions">Standards Across All Regions</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="pennsylvania" class="panel">
+  <div class="text-container">
+    <h2>Alignment of Problem Sets to Pennsylvania 1st Grade Standards<a href="#footnote1" class="footnote-link"><sup>1</sup></a></h2>
+    <p>Below is a table mapping each selected problem from the provided sets to the relevant Pennsylvania 1st grade math standards. For each problem, the table includes the original wording, the PA standard(s) it addresses with links, an explanation of alignment, and a reformulated version appropriate for 1st graders. The problems cover a balance of number sense, basic operations, early algebraic thinking, geometry, and general problem-solving, all tailored to first grade learning objectives.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Original Problem Text</th>
+          <th>Relevant PA Standard(s)</th>
+          <th>Alignment Notes</th>
+          <th>Reformulated 1st-Grade Problem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>“John had 8 candies, he eats 3 of them. How many candies does he have now?”</td>
+          <td>**CC.2.2.1.A.1** – Represent and solve addition and subtraction within 20<a href="#footnote2" class="footnote-link"><sup>2</sup></a></td>
+          <td>This problem asks students to subtract 3 from 8 to find the remainder, which is a straightforward **subtraction within 10** (and within 20). It builds number sense by having students remove part of a quantity to find the result, directly addressing the ability to **solve an addition or subtraction word problem within 20**.</td>
+          <td>**John has 8 apples. He eats 3 of them. How many apples does John have left?** (Students solve 8 – 3 using objects or drawings.)</td>
+        </tr>
+        <tr>
+          <td>“There are 8 children around the table for Dorothy’s birthday, and 3 of them are drinking juice. How many are not drinking juice?”</td>
+          <td>**CC.2.2.1.A.1** – Addition and subtraction within 20<a href="#footnote2" class="footnote-link"><sup>2</sup></a><br>*(Also builds understanding of part-whole relationships in a total of 8)*</td>
+          <td>This task involves a **part-whole scenario**: from 8 total children, 3 have juice and the rest do not. Students must interpret the subtraction 8 – 3 = 5, practicing **taking apart** a total. It reinforces number sense by understanding that the total minus one part gives the other part. This aligns with solving addition/subtraction problems within 20 in a real-world context.</td>
+          <td>**At a party, 8 children sit at a table. 3 children are drinking juice. How many children are not drinking juice?** (Students recognize 8 total, 3 with juice, so 5 without.)</td>
+        </tr>
+        <tr>
+          <td>“Juanita has just been given $3 by her grandmother. She now has $8. How many dollars did she have before?”</td>
+          <td>**CC.2.2.1.A.1** – Addition/subtraction within 20<a href="#footnote2" class="footnote-link"><sup>2</sup></a><br>**CC.2.2.1.A.2** – Understand relationship between addition and subtraction<a href="#footnote3" class="footnote-link"><sup>3</sup></a></td>
+          <td>This problem is a **“start unknown” addition scenario**: an initial amount plus 3 equals 8. Students must infer the starting amount by **subtracting** 3 from 8. Solving it demonstrates the relationship between addition and subtraction (using subtraction to undo addition). It aligns with first grade expectations by requiring **addition/subtraction within 20** and understanding that an unknown addend can be found via subtraction.</td>
+          <td>**Juanita had some stickers. Her grandma gave her 3 more, and now she has 8 stickers in total. How many did she have to start with?** (Students realize the initial amount = 8 – 3.)</td>
+        </tr>
+        <tr>
+          <td>“Robert had 8 marbles before playing with Ruth. He now has 3 marbles. What has happened during the game?”</td>
+          <td>**CC.2.2.1.A.1** – Addition/subtraction within 20<a href="#footnote2" class="footnote-link"><sup>2</sup></a></td>
+          <td>This problem implies a **decrease scenario**: Robert’s marbles went from 8 down to 3. Students determine that he **lost 5 marbles**, effectively performing the subtraction 8 – 5 = 3. This meets the standard of solving an addition/subtraction problem within 20, and it builds understanding of subtraction as describing a loss or take-away in context. (The open question “What happened?” encourages reasoning that a subtraction occurred, even if phrased qualitatively.)</td>
+          <td>**Robert had 8 marbles. After playing a game, he has 3 marbles. How many marbles did he lose during the game?** (Students subtract 8 – 3 to find that 5 marbles were lost.)</td>
+        </tr>
+        <tr>
+          <td>“Susan has $3 in her pocket. Claire has $8. How much less does Susan have?”</td>
+          <td>**CC.2.2.1.A.1** – Addition/subtraction within 20<a href="#footnote2" class="footnote-link"><sup>2</sup></a><br>**CC.2.2.1.A.2** – Relationship between addition and subtraction<a href="#footnote3" class="footnote-link"><sup>3</sup></a></td>
+          <td>This is a **comparison problem** asking for the difference between two quantities (3 and 8). Students figure out “how much less” by computing 8 – 3 = 5. It reinforces that subtraction can be used to compare two numbers, aligning with the standard of solving problems within 20. Understanding that the difference can be found by subtracting the smaller from the larger number also reflects the **relationship between addition and subtraction** (as the inverse operations that connect two values and their difference).</td>
+          <td>**Susan has 3 marbles and Claire has 8 marbles. How many more marbles does Claire have than Susan?** (Students either count up from 3 to 8 or do 8 – 3 = 5 to find the difference of 5 marbles.)</td>
+        </tr>
+        <tr>
+          <td>“Ally played two games of marbles. In the second game she won 3 marbles. She does not remember what happened in the first game. But when she counts her marbles she finds that she has won 8 marbles in all. How many marbles did she win in the first game?”</td>
+          <td>**CC.2.2.1.A.1** – Addition/subtraction within 20<a href="#footnote2" class="footnote-link"><sup>2</sup></a><br>**CC.2.2.1.A.2** – Relationship between addition and subtraction<a href="#footnote3" class="footnote-link"><sup>3</sup></a></td>
+          <td>This multi-step context has students interpret a total gain spread over two events: the sum of marbles won in game 1 and game 2 is 8 (with game 2 contributing 3). To find the unknown first-game winnings, students set up **3 + □ = 8** and solve by **subtracting 3 from 8**. This aligns with representing and solving addition problems within 20. It also highlights the **concept of an unknown addend**, reinforcing the understanding of subtraction as the inverse of addition (finding the missing part of a sum).</td>
+          <td>**Ally won some marbles in the first game and 3 marbles in the second game. Together, she won 8 marbles in both games. How many marbles did Ally win in the first game?** (Students solve 3 + ___ = 8, so the answer is 5 marbles.)</td>
+        </tr>
+        <tr>
+          <td>*No direct original given (place-value comparison)* – **Example:** “(Place value) Compare 24 and 42. Who has more?”</td>
+          <td>**CC.2.1.1.B.2** – Use place-value concepts to represent tens and ones and to compare two-digit numbers<a href="#footnote4" class="footnote-link"><sup>4</sup></a></td>
+          <td>This problem addresses **number sense and place value**. By comparing 24 vs 42 in a story context, students must use their understanding of tens and ones to identify which number is larger. This meets the first grade standard of comparing two-digit numbers using place-value knowledge. It reinforces that the number of tens is the determining factor when comparing two-digit numbers (42 has more tens than 24).</td>
+          <td>**Tom picked 24 apples, and Sally picked 42 apples. Who picked more apples? How do you know?** (Students recognize that 42 > 24 because 42 has 4 tens vs 2 tens, so Sally picked more.)</td>
+        </tr>
+        <tr>
+          <td>*No direct original given (shape composition)* – **Example:** “(Geometry) Compose shapes”</td>
+          <td>**CC.2.3.1.A.1** – Compose and distinguish between two- and three-dimensional shapes based on their attributes<a href="#footnote5" class="footnote-link"><sup>5</sup></a></td>
+          <td>This task engages students in **geometry and spatial reasoning** by having them combine simple shapes to form a composite shape. It aligns with the standard to *compose shapes* and recognize attributes. By putting two shapes together and identifying the result (e.g., two triangles making a square or a rectangle made of two smaller squares), students learn to distinguish shapes and see how larger shapes can be built from smaller components – a key first grade geometric concept.</td>
+          <td>**Emma has two identical triangle blocks. She fits them together to make a new shape with four sides. What shape does she make?** (Students realize two right triangles can form a rectangle or square, illustrating composition of a larger 2D shape.)</td>
+        </tr>
+        <tr>
+          <td>*No direct original given (partitioning shapes)* – **Example:** “(Geometry – halves/quarters)”</td>
+          <td>**CC.2.3.1.A.2** – Partition shapes into halves and quarters (using understanding of fractions)<a href="#footnote6" class="footnote-link"><sup>6</sup></a></td>
+          <td>This problem targets the **introduction to fractions through geometry**. It asks students to divide a shape or set into equal parts, directly addressing the standard of partitioning shapes into halves and quarters. By identifying halves and quarters in a familiar context (like pieces of a candy bar or pie), students grasp that equal shares of a whole are called halves (2 parts) or quarters (4 parts). This builds early fraction sense in a concrete, age-appropriate way.</td>
+          <td>**Sam has a chocolate bar made of 4 equal pieces. He breaks it into 2 equal groups of pieces. Did he split the chocolate into halves or quarters? How do you know?** (Students see 2 equal groups out of 4 pieces means each group is half of the bar. They recognize halves vs. quarters based on how many equal parts make the whole.)</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footnotes">
+      <hr/>
+      <ol>
+        <li id="footnote1" class="footnote-item">Alignment of Problem Sets to Pennsylvania 1st Grade Standards</li>
+        <li id="footnote2" class="footnote-item"><a href="https://static.pdesas.org/content/documents/PA%20Core%20Standards%20Mathematics%20PreK-12%20March%202014.pdf#page=37" target="_blank" rel="noopener">CC.2.2.1.A.1 – Represent and solve addition and subtraction within 20</a></li>
+        <li id="footnote3" class="footnote-item"><a href="https://static.pdesas.org/content/documents/PA%20Core%20Standards%20Mathematics%20PreK-12%20March%202014.pdf#page=37" target="_blank" rel="noopener">CC.2.2.1.A.2 – Understand relationship between addition and subtraction</a></li>
+        <li id="footnote4" class="footnote-item"><a href="https://static.pdesas.org/content/documents/PA%20Core%20Standards%20Mathematics%20PreK-12%20March%202014.pdf#page=35" target="_blank" rel="noopener">CC.2.1.1.B.2 – Use place-value concepts to represent tens and ones and to compare two-digit numbers</a></li>
+        <li id="footnote5" class="footnote-item"><a href="https://static.pdesas.org/content/documents/PA%20Core%20Standards%20Mathematics%20PreK-12%20March%202014.pdf#page=40" target="_blank" rel="noopener">CC.2.3.1.A.1 – Compose and distinguish between two- and three-dimensional shapes based on their attributes</a></li>
+        <li id="footnote6" class="footnote-item"><a href="https://static.pdesas.org/content/documents/PA%20Core%20Standards%20Mathematics%20PreK-12%20March%202014.pdf#page=40" target="_blank" rel="noopener">CC.2.3.1.A.2 – Partition shapes into halves and quarters (using understanding of fractions)</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div id="illinois-grades-1-3" class="panel">
+  <div class="text-container">
+    <h2>Alignment of Problem Sets to Illinois Standards (Grades 1-3)<a href="#footnote7" class="footnote-link"><sup>7</sup></a></h2>
+    <p>This table aligns example problems to Illinois educational standards for 1st, 2nd, and 3rd grade, demonstrating how problem complexity can be adjusted across grade levels while addressing core mathematical concepts.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Problem Scenario</th>
+          <th>1st Grade (IL Standard Alignment)</th>
+          <th>2nd Grade (IL Standard Alignment)</th>
+          <th>3rd Grade (IL Standard Alignment)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>**Candy Count (Take-Away)** <br><br> *Original Problem:* John had 8 candies. He eats 3 of them. How many candies does he have now?</td>
+          <td>
+            **Standard (IL 1.OA.1):** Use addition and subtraction within 20 to solve **“taking from”** word problems with unknown results<a href="#footnote8" class="footnote-link"><sup>8</sup></a>. <br>
+            **Notes:** This simple subtraction scenario (8 – 3 = 5) is within 1st grade limits. <br>
+            **Reformulated for 1st Grade:** *John has 8 candies. He gives 3 candies to his friend. How many candies does John have left?*
+          </td>
+          <td>
+            **Standard (IL 2.OA.1):** Use addition and subtraction within 100 to solve one- and two-step word problems<a href="#footnote9" class="footnote-link"><sup>9</sup></a>. <br>
+            **Notes:** This two-step version stays within 100 and requires sequential operations. <br>
+            **Reformulated for 2nd Grade:** *John had 50 candies. He **received 20 more** candies for his birthday, then **ate 15** of them. How many candies does he have now?*
+          </td>
+          <td>
+            **Standard (IL 3.OA.8):** Solve two-step word problems using the four operations, representing them with equations and using reasoning to check answers<a href="#footnote10" class="footnote-link"><sup>10</sup></a>. <br>
+            **Notes:** This multi-step problem involves **multiplication** followed by **subtraction**, fitting 3.OA.8’s criteria of two operations. <br>
+            **Reformulated for 3rd Grade:** *John had 3 bags of candies with 8 candies in each bag. He then **eats 5** candies. How many candies does he have left?*
+          </td>
+        </tr>
+        <tr>
+          <td>**Comparing Quantities (More/Less)** <br><br> *Original Problem:* Susan has $3 in her pocket. Claire has $8. How much less does Susan have?</td>
+          <td>
+            **Standard (IL 1.OA.1):** Solve addition/subtraction word problems within 20, including **comparison scenarios** with unknown differences<a href="#footnote8" class="footnote-link"><sup>8</sup></a>. <br>
+            **Notes:** This problem exemplifies a “compare – how many less” situation (Claire 8 vs Susan 3). <br>
+            **Reformulated for 1st Grade:** *Susan has 3 dollars. Claire has 8 dollars. **How many more dollars does Claire have than Susan?***
+          </td>
+          <td>
+            **Standard (IL 2.OA.1):** Solve one- and two-step word problems within 100, including **comparison** with unknowns in any position<a href="#footnote9" class="footnote-link"><sup>9</sup></a>. <br>
+            **Notes:** With larger numbers, this remains a one-step comparison. <br>
+            **Reformulated for 2nd Grade:** *Susan has 30 dollars. Claire has 80 dollars. **How much less** does Susan have than Claire?*
+          </td>
+          <td>
+            **Standard (IL 3.OA.8):** Solve two-step problems using addition, subtraction, etc., and assess answer reasonableness<a href="#footnote10" class="footnote-link"><sup>10</sup></a>. <br>
+            **Notes:** This extended comparison problem involves **multiple steps**: finding Brother A’s height difference, accounting for the “4 inches more” condition, and then finding Sister B’s height. <br>
+            **Reformulated for 3rd Grade:** *Brother A is 60 inches tall and Sister A is 50 inches tall. Brother B is 55 inches tall. Brother A stands **4 inches taller** above his sister **than** Brother B stands above his sister. How tall is Sister B?*
+          </td>
+        </tr>
+        <tr>
+          <td>**Unknown Start (Add-To scenario)** <br><br> *Original Problem:* Juanita has just been given $3 by her grandmother. She now has $8. How many dollars did she have before?</td>
+          <td>
+            **Standard (IL 1.OA.4):** Understand subtraction as an **unknown-addend** problem (find the missing part that adds to a given total)<a href="#footnote11" class="footnote-link"><sup>11</sup></a>. <br>
+            **Notes:** This problem presents an “add to, start unknown” structure: initial amount + 3 = 8. <br>
+            **Reformulated for 1st Grade:** *Juanita now has 8 dollars after her grandmother gave her 3 dollars. **How many dollars did Juanita have to start with?***
+          </td>
+          <td>
+            **Standard (IL 2.OA.1):** One- and two-step word problems within 100, including those with the **start unknown**<a href="#footnote9" class="footnote-link"><sup>9</sup></a>. <br>
+            **Notes:** Using larger values extends the first-grade problem to second-grade difficulty while preserving structure. <br>
+            **Reformulated for 2nd Grade:** *Juanita has 80 dollars now, after her grandmother gave her 30 dollars for her birthday. **How much money did Juanita have before** she got the gift?*
+          </td>
+          <td>
+            **Standard (IL 3.NBT.2):** Fluently add and subtract within 1000 using strategies and algorithms based on place value<a href="#footnote12" class="footnote-link"><sup>12</sup></a>. <br>
+            **Notes:** This version increases the numbers into the hundreds, appropriate for 3rd grade arithmetic. <br>
+            **Reformulated for 3rd Grade:** *Juanita has 140 dollars now. Her grandmother gave her 30 dollars as a gift. **How much did Juanita have before** she got the gift?*
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footnotes">
+      <hr/>
+      <ol>
+        <li id="footnote7" class="footnote-item">Alignment of Problem Sets to Illinois Standards (Grades 1-3)</li>
+        <li id="footnote8" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-1/illinois-standards#:~:text=,number%20to%20represent%20the%20problem" target="_blank" rel="noopener">IL 1.OA.1 - Illinois Learning Standards</a></li>
+        <li id="footnote9" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-2/illinois-standards#:~:text=,number%20to%20represent%20the%20problem" target="_blank" rel="noopener">IL 2.OA.1 - Illinois Learning Standards</a></li>
+        <li id="footnote10" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-3/illinois-standards#:~:text=%23%23%20CC.3.OA.8.%20Solve%20two,and%20estimation%20strategies%20including%20rounding" target="_blank" rel="noopener">IL 3.OA.8 - Illinois Learning Standards</a></li>
+        <li id="footnote11" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-1/illinois-standards#:~:text=,10%20when%20added%20to%208" target="_blank" rel="noopener">IL 1.OA.4 - Illinois Learning Standards</a></li>
+        <li id="footnote12" class="footnote-item"><a href="https://www2.cde.ca.gov/cacs/id/web/342#:~:text=Standard%3A%20Fluently%20add%20and%20subtract,relationship%20between%20addition%20and%20subtraction" target="_blank" rel="noopener">IL 3.NBT.2 - CA Content Standards (Used for IL as similar standard)</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div id="illinois-extended" class="panel">
+  <div class="text-container">
+    <h2>Further Alignment to Illinois Standards (Grades 1-3)<a href="#footnote7" class="footnote-link"><sup>7</sup></a></h2>
+    <p>Expanding on the previous alignment, this table includes more diverse problem types and complexities, demonstrating alignment across number sense, algebraic thinking, fractions, and geometry for Illinois 1st, 2nd, and 3rd grade standards.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Original Problem</th>
+          <th>1st Grade Alignment</th>
+          <th>2nd Grade Alignment</th>
+          <th>3rd Grade Alignment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>*John had 8 candies, he eats 3 of them. How many candies does he have now?*</td>
+          <td>
+            <strong>Standard:</strong> CC.1.OA.1 (Use addition/subtraction within 20 to solve word problems)<a href="#footnote13" class="footnote-link"><sup>13</sup></a><br>
+            <strong>Note:</strong> Simple “take from” scenario using small numbers. <br>
+            <strong>Reformulated Problem:</strong> *John had 8 candies and ate 3. How many candies does John have left?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.2.OA.1 (Solve one- and two-step addition/subtraction word problems within 100)<a href="#footnote14" class="footnote-link"><sup>14</sup></a><br>
+            <strong>Note:</strong> Uses larger numbers (within 100) to increase complexity. <br>
+            <strong>Reformulated Problem:</strong> *John had 45 candies. He ate 18 of them. How many candies does he have now?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.3.NBT.2 (Fluently add and subtract within 1000)<a href="#footnote15" class="footnote-link"><sup>15</sup></a><br>
+            <strong>Note:</strong> Increases the numbers into the hundreds to align with 3rd grade fluency expectations. <br>
+            <strong>Reformulated Problem:</strong> *John had 123 candies. He gave away 45 of them. How many candies does he have left?*
+          </td>
+        </tr>
+        <tr>
+          <td>*Juanita has just been given $3 by her grandmother. She now has $8. How many dollars did she have before?*</td>
+          <td>
+            <strong>Standard:</strong> CC.1.OA.4 (Understand subtraction as an unknown-addend problem)<a href="#footnote16" class="footnote-link"><sup>16</sup></a><br>
+            <strong>Note:</strong> “Unknown-start” addition scenario (___ + 3 = 8). <br>
+            <strong>Reformulated Problem:</strong> *Juanita’s grandma gave her 3 dollars. Now Juanita has 8 dollars in total. How many dollars did Juanita have to begin with?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.2.OA.1 (One- and two-step word problems with unknowns in all positions)<a href="#footnote14" class="footnote-link"><sup>14</sup></a><br>
+            <strong>Note:</strong> Extends the unknown-addend concept to larger numbers. <br>
+            <strong>Reformulated Problem:</strong> *Juanita’s grandmother gave her $25. Now Juanita has $68 in total. How many dollars did Juanita have before getting Grandma’s gift?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.3.OA.8 & CC.3.NBT.2 (Two-step problems & Add/subtract within 1000)<a href="#footnote17" class="footnote-link"><sup>17</sup></a><br>
+            <strong>Note:</strong> Uses a larger round-number total (500) and a three-digit known addend. <br>
+            <strong>Reformulated Problem:</strong> *Juanita has 140 dollars now. Her grandmother gave her 30 dollars as a gift. How many dollars did Juanita have before the gift?*
+          </td>
+        </tr>
+        <tr>
+          <td>*Roberto had 12 marbles before playing with Ron. He now has 3 marbles. What fraction of his marbles did he lose?*</td>
+          <td>
+            <strong>Standard:</strong> CC.1.OA.6 & CC.1.G.3 (Add/subtract within 20 & Halves/fourths)<a href="#footnote18" class="footnote-link"><sup>18</sup></a><br>
+            <strong>Note:</strong> Simplified to focus on subtraction within 20; informal fraction sense. <br>
+            <strong>Reformulated Problem:</strong> *Roberto had 12 marbles and lost some while playing. Now he has 3 marbles left. How many marbles did Roberto lose?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.2.G.3 (Partition circles/rectangles into shares; describe wholes as fractions)<a href="#footnote19" class="footnote-link"><sup>19</sup></a><br>
+            <strong>Note:</strong> Interpreting 12 marbles as a whole partitioned into equal groups. <br>
+            <strong>Reformulated Problem:</strong> *Roberto had 12 marbles and lost 9 of them. What fraction of his marbles did he lose?* (Hint provided for fraction understanding)
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.3.NF.1 (Understand a fraction 1/b as one part of a whole, a/b as a parts of size 1/b)<a href="#footnote20" class="footnote-link"><sup>20</sup></a><br>
+            <strong>Note:</strong> Formally understand fractions as parts of a set or whole; simplify fractions. <br>
+            <strong>Reformulated Problem:</strong> *Roberto had 12 marbles and now has 3 left. What fraction of his marbles did he lose?*
+          </td>
+        </tr>
+        <tr>
+          <td>*A square is turned on its corner so it looks like a diamond. Is it still a square? Why or why not?*</td>
+          <td>
+            <strong>Standard:</strong> CC.1.G.1 (Distinguish defining attributes vs. non-defining)<a href="#footnote21" class="footnote-link"><sup>21</sup></a><br>
+            <strong>Note:</strong> Shape’s attributes remain the same even when orientation changes. <br>
+            <strong>Reformulated Problem:</strong> *Your teacher draws a square, then rotates it 45°. “What shape is it now?”*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.2.G.1 (Recognize and draw shapes having specified attributes)<a href="#footnote22" class="footnote-link"><sup>22</sup></a><br>
+            <strong>Note:</strong> Classify shapes by properties rather than orientation. <br>
+            <strong>Reformulated Problem:</strong> *Draw a square and turn your paper so it looks like a diamond. How many sides and corners does it have now?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.3.G.1 (Shapes in different categories can share attributes)<a href="#footnote23" class="footnote-link"><sup>23</sup></a><br>
+            <strong>Note:</strong> Rotated square belongs to both square and rhombus categories. <br>
+            <strong>Reformulated Problem:</strong> *Is a square rotated 45° (often called a diamond) still a square? Explain.*
+          </td>
+        </tr>
+        <tr>
+          <td>*Luke had 5 toy cars. He got 3 more for his birthday, then gave 2 cars to his brother. How many toy cars does Luke have now?*</td>
+          <td>
+            <strong>Standard:</strong> CC.1.OA.1 (Solve addition and subtraction word problems within 20)<a href="#footnote13" class="footnote-link"><sup>13</sup></a><br>
+            <strong>Note:</strong> Two-step problem within 10, approached with guidance. <br>
+            <strong>Reformulated Problem:</strong> *Luke had 5 toy cars. He got 3 new cars as gifts. Now how many cars? Then Luke gave 2 away. How many left?* (Broken into two questions)
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.2.OA.1 (Solve one- and two-step word problems within 100)<a href="#footnote14" class="footnote-link"><sup>14</sup></a><br>
+            <strong>Note:</strong> Two-step problems explicitly expected in 2nd grade. <br>
+            <strong>Reformulated Problem:</strong> *Luke had 5 toy cars, got 3 more, and then gave 2 away. How many does he have in the end?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.3.OA.8 (Solve two-step word problems using the four operations)<a href="#footnote10" class="footnote-link"><sup>10</sup></a><br>
+            <strong>Note:</strong> For 3rd grade, quick exercise in multi-step thinking. <br>
+            <strong>Reformulated Problem:</strong> *Luke had 5 toy cars, got 3 more, then gave 2 to his brother. How many toy cars does Luke have now?*
+          </td>
+        </tr>
+        <tr>
+          <td>*“Add 3 to a number” pattern rule – find a scenario or sequence that fits this rule.*</td>
+          <td>
+            <strong>Standard:</strong> CC.1.OA.5 (Relate counting to addition – count on to add)<a href="#footnote24" class="footnote-link"><sup>24</sup></a><br>
+            <strong>Note:</strong> Constant increase scenario; connects to “counting on” strategy. <br>
+            <strong>Reformulated Problem:</strong> *Ella stacks blocks: Mon 2, Tue 5, Wed 8. How many on Thursday if pattern continues?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.2.NBT.2 & CC.2.OA.4 (Skip-count by 5s, 10s, 100s & Foundations for multiplication)<a href="#footnote25" class="footnote-link"><sup>25</sup></a><br>
+            <strong>Note:</strong> Apply skip-counting-by-3 pattern as enrichment; repeated addition. <br>
+            <strong>Reformulated Problem:</strong> *Ella plays piano: Day 1: 2 songs, Day 2: 5 songs, Day 3: 8 songs. How many songs on Day 4 (adding 3 each day)?*
+          </td>
+          <td>
+            <strong>Standard:</strong> CC.3.OA.9 (Identify arithmetic patterns and explain them)<a href="#footnote26" class="footnote-link"><sup>26</sup></a><br>
+            <strong>Note:</strong> Recognize patterns and articulate the rule; arithmetic sequence. <br>
+            <strong>Reformulated Problem:</strong> *Ella skip-counts: 2, 5, 8, 11, … Rule? Number on Day 5?*
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footnotes">
+      <hr/>
+      <ol>
+        <li id="footnote7" class="footnote-item">Further Alignment to Illinois Standards (Grades 1-3)</li>
+        <li id="footnote13" class="footnote-item"><a href="https://www.isbe.net/Documents/Math_common_core_standards.pdf#:~:text=CC" target="_blank" rel="noopener">CC.1.OA.1 - The New Illinois Learning Standards for Mathematics</a></li>
+        <li id="footnote14" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-2/illinois-standards#:~:text=,within%2020" target="_blank" rel="noopener">CC.2.OA.1 - Illinois Learning Standards</a></li>
+        <li id="footnote15" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-3/illinois-standards#:~:text=,relationship%20between%20addition%20and%20subtraction" target="_blank" rel="noopener">CC.3.NBT.2 - Illinois Learning Standards</a></li>
+        <li id="footnote16" class="footnote-item"><a href="https://www.isbe.net/Documents/Math_common_core_standards.pdf#:~:text=CC" target="_blank" rel="noopener">CC.1.OA.4 - The New Illinois Learning Standards for Mathematics</a></li>
+        <li id="footnote17" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-3/illinois-standards#:~:text=,relationship%20between%20addition%20and%20subtraction" target="_blank" rel="noopener">CC.3.OA.8 & CC.3.NBT.2 - Illinois Learning Standards</a></li>
+        <li id="footnote18" class="footnote-item"><a href="https://www.isbe.net/Documents/Math_common_core_standards.pdf#:~:text=CC,fourth%20of%2C%20and%20quarter%20of" target="_blank" rel="noopener">CC.1.OA.6 & CC.1.G.3 - The New Illinois Learning Standards for Mathematics</a></li>
+        <li id="footnote19" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-2/illinois-standards#:~:text=,not%20have%20the%20same%20shape" target="_blank" rel="noopener">CC.2.G.3 - Illinois Learning Standards</a></li>
+        <li id="footnote20" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-3/illinois-standards#:~:text=,a%20parts%20of%20size%201%2Fb" target="_blank" rel="noopener">CC.3.NF.1 - Illinois Learning Standards</a></li>
+        <li id="footnote21" class="footnote-item"><a href="https://www.isbe.net/Documents/Math_common_core_standards.pdf#:~:text=CC,wide%20variety%20of%20shapes%3B%20build" target="_blank" rel="noopener">CC.1.G.1 - The New Illinois Learning Standards for Mathematics</a></li>
+        <li id="footnote22" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-2/illinois-standards#:~:text=,quadrilaterals%2C%20pentagons%2C%20hexagons%2C%20and%20cubes" target="_blank" rel="noopener">CC.2.G.1 - Illinois Learning Standards</a></li>
+        <li id="footnote23" class="footnote-item"><a href="https://www.isbe.net/Documents/Math_common_core_standards.pdf#:~:text=CC,attributes%20can%20define%20a%20larger" target="_blank" rel="noopener">CC.3.G.1 - The New Illinois Learning Standards for Mathematics</a></li>
+        <li id="footnote24" class="footnote-item"><a href="https://www.isbe.net/Documents/Math_common_core_standards.pdf#:~:text=CC" target="_blank" rel="noopener">CC.1.OA.5 - The New Illinois Learning Standards for Mathematics</a></li>
+        <li id="footnote25" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-2/illinois-standards#:~:text=,by%205s%2C%2010s%2C%20and%20100s" target="_blank" rel="noopener">CC.2.NBT.2 & CC.2.OA.4 - Illinois Learning Standards</a></li>
+        <li id="footnote26" class="footnote-item"><a href="https://www.isbe.net/Documents/Math_common_core_standards.pdf#:~:text=CC,explain%20them%20using%20properties%20of" target="_blank" rel="noopener">CC.3.OA.9 - The New Illinois Learning Standards for Mathematics</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div id="irish" class="panel">
+  <div class="text-container">
+    <h2>Alignment of Problem Sets to Irish Curriculum (Senior Infants)<a href="#footnote27" class="footnote-link"><sup>27</sup></a></h2>
+    <p>This table illustrates how example problems align with the Irish Primary School Mathematics Curriculum for Senior Infants (equivalent to Kindergarten/early 1st Grade), focusing on foundational number sense, early algebra, and spatial reasoning.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Original Problem Text</th>
+          <th>Relevant Irish Curriculum Standard(s)</th>
+          <th>Alignment Notes</th>
+          <th>Reformulated Problem for Senior Infants</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>*“John had 8 candies, he eats 3 of them. How many candies does he have now?”*</td>
+          <td>*Number –* **Combining/Partitioning within 0–10:** *“Partition sets of objects 0–10… 8 people are on my team. 6 are girls, how many are boys?”*<a href="#footnote28" class="footnote-link"><sup>28</sup></a></td>
+          <td>This problem requires subtracting 3 from 8, aligning with the Senior Infants outcome of understanding subtraction as “taking away” within 10.</td>
+          <td>**John had 8** **sweets**. He **ate 3** of them. **How many sweets does he have now?** (Use counters or drawings to take away 3 from 8.)</td>
+        </tr>
+        <tr>
+          <td>*“Juanita has just been given $3 by her grandmother. She now has $8. How many dollars did she have before?”*</td>
+          <td>*Number –* **Combining to Total (Counting on):** *“Combine sets of objects, totals to 10… use appropriate strategies: counting all, counting on (e.g. start at 5, count on 3)….”*<a href="#footnote28" class="footnote-link"><sup>28</sup></a></td>
+          <td>This addition scenario presents a total (8) and a part (3) to find the unknown initial amount. It aligns with the curriculum goal of combining numbers up to 10.</td>
+          <td>**Juanita had some sweets.** Her granny **gave her 3 more**, and now **she has 8 sweets in total**. **How many sweets did Juanita have at first?** (Children can use objects to count up to 8, having added 3.)</td>
+        </tr>
+        <tr>
+          <td>*“Susan has $3 in her pocket. Claire has $8. How much less does Susan have?”*</td>
+          <td>*Number –* **Comparing Numbers (0–10):** *“Compare equivalent and non-equivalent sets 0–10 by matching; name the inequality: I have 2 more than you; 3 is less than 5.”*<a href="#footnote28" class="footnote-link"><sup>28</sup></a></td>
+          <td>This comparative question addresses the concept of difference between two quantities. Senior Infants are expected to compare numbers within 10.</td>
+          <td>**Susan has 3 sweets and Claire has 8 sweets. How many more sweets does Claire have than Susan?** (Children might line up objects or use counting to see the difference.)</td>
+        </tr>
+        <tr>
+          <td>*“Add 3 to a number.”*</td>
+          <td>*Algebra –* **Extending Patterns:** *“Recognise patterns and predict subsequent numbers… find the missing numbers: 2, 3, 4, ■, 6, 7.”*<a href="#footnote28" class="footnote-link"><sup>28</sup></a></td>
+          <td>This prompt is about a constant increasing pattern (each term 3 greater than the last). It reflects the early algebraic thinking in Senior Infants.</td>
+          <td>**Mary picks 3 apples each day.** On day 1 she picked 3 apples, on day 2 she picked 6 apples, on day 3 she picked 9 apples. **If this pattern continues, how many apples will she pick on day 4?** (Recognize that the number increases by 3 each day.)</td>
+        </tr>
+        <tr>
+          <td>*“How many unique triangles are made by the six lines below? (One example triangle is shown in bold.)”*</td>
+          <td>*Shape and Space –* **2D Shapes (Senior Infants):** *“Sort, describe and name 2-D shapes: square, circle, triangle, rectangle…; solve problems involving shape and space.”*<a href="#footnote28" class="footnote-link"><sup>28</sup></a></td>
+          <td>For Senior Infants, the focus shifts to basic shape recognition and simple spatial reasoning, identifying and naming common shapes (like triangles).</td>
+          <td>**Amy has 4 paper shapes: 2 triangles, 1 circle, and 1 square.** She makes a group of all the shapes that **have 3 sides**. **Which shapes will go in that group, and how many shapes are not in the group?** (Children identify the triangles as the 3-sided shapes.)</td>
+        </tr>
+        <tr>
+          <td>*“More than one but finitely many solutions.”*</td>
+          <td>*Skills –* **Problem Solving (Applying and Problem-Solving):** *“Solve simple oral and pictorial problems, 0–10… problems can include … open-ended exploratory questions (e.g. *How many different ways can you make a pattern with 6 counters?*).”*<a href="#footnote28" class="footnote-link"><sup>28</sup></a></td>
+          <td>This open-ended prompt encourages finding multiple answers, which ties into the problem-solving skills emphasized in the curriculum for Senior Infants.</td>
+          <td>**Billy has 5 apples and 2 baskets.** He can put some apples in the red basket and the rest in the blue basket. **What different ways can Billy put the 5 apples into the two baskets?** (Children attempt all possible splits of 5.)</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footnotes">
+      <hr/>
+      <ol>
+        <li id="footnote27" class="footnote-item">Alignment of Problem Sets to Irish Curriculum (Senior Infants)</li>
+        <li id="footnote28" class="footnote-item"><a href="https://www.curriculumonline.ie/getmedia/9df5f3c5-257b-471e-8d0f-f2cf059af941/PSEC02_Mathematics_Curriculum.pdf" target="_blank" rel="noopener">Primary School Mathematics Curriculum (1999)</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div id="kentucky" class="panel">
+  <div class="text-container">
+    <h2>Alignment of Problem Sets to Kentucky 1st Grade Standards<a href="#footnote29" class="footnote-link"><sup>29</sup></a></h2>
+    <p>This table outlines the alignment of example problems to Kentucky's 1st Grade Math Standards, showing how each problem addresses specific standards and how they are reformulated for 1st grade appropriateness.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Original Problem</th>
+          <th>Relevant KY Standard(s)</th>
+          <th>Notes on Standard Alignment</th>
+          <th>1st Grade Reformulation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>**John’s candies:** “John had 8 candies, he eats 3 of them. How many candies does he have now?”</td>
+          <td>KY.1.OA.1<a href="#footnote30" class="footnote-link"><sup>30</sup></a></td>
+          <td>Basic “taking from” subtraction word problem with result unknown.</td>
+          <td>**John’s candies (adapted):** “John had 15 candies. He ate 4 of them. How many candies does he have now?”</td>
+        </tr>
+        <tr>
+          <td>**Birthday guests:** “There are 8 children around the table for Dorothy’s birthday, and 3 of them are drinking juice. How many are not drinking juice?”</td>
+          <td>KY.1.OA.1<a href="#footnote30" class="footnote-link"><sup>30</sup></a></td>
+          <td>Part–whole scenario (“taking apart” a total).</td>
+          <td>**Party guests (adapted):** “There are 18 children at a party, and 5 of them are eating cake. How many children are *not* eating cake?”</td>
+        </tr>
+        <tr>
+          <td>**Juanita’s money:** “Juanita has just been given $3 by her grandmother. She now has $8. How many dollars did she have before?”</td>
+          <td>KY.1.OA.1<a href="#footnote30" class="footnote-link"><sup>30</sup></a>, KY.1.OA.4<a href="#footnote31" class="footnote-link"><sup>31</sup></a></td>
+          <td>Finding an **unknown starting amount** (“add to” with start unknown).</td>
+          <td>**Juanita’s money (adapted):** “Juanita has just been given $4 for her birthday. Now she has $13. How many dollars did she have before?”</td>
+        </tr>
+        <tr>
+          <td>**Marbles lost:** “Robert had 8 marbles before playing with Ruth. He now has 3 marbles. *What has happened during the game?*”</td>
+          <td>KY.1.OA.1<a href="#footnote30" class="footnote-link"><sup>30</sup></a></td>
+          <td>Scenario presents a **change unknown** situation in a subtraction context.</td>
+          <td>**Marbles lost (adapted):** “Ryan had 15 marbles before playing a game. After the game, he has 6 marbles. How many marbles did he lose during the game?”</td>
+        </tr>
+        <tr>
+          <td>**Susan and Claire:** “Susan has $3 in her pocket. Claire has $8. How much less does Susan have (than Claire)?”</td>
+          <td>KY.1.OA.1<a href="#footnote30" class="footnote-link"><sup>30</sup></a></td>
+          <td>This is a **comparison** problem asking for the difference between two quantities.</td>
+          <td>**Claire and Susan (adapted):** “Claire has 15 marbles. Susan has 9 marbles. How many more marbles does Claire have than Susan?”</td>
+        </tr>
+        <tr>
+          <td>**True/false equation:** *“Is the equation 6 = 5 + 2 true or false?”*</td>
+          <td>KY.1.OA.7<a href="#footnote32" class="footnote-link"><sup>32</sup></a></td>
+          <td>Checks understanding of the **equal sign** as meaning *“the same amount as”*.</td>
+          <td>**True/false equation (adapted):** *“Is the equation 4 + 3 = 3 + 4 true or false?”*</td>
+        </tr>
+        <tr>
+          <td>**Shape attributes:** “Jack drew a square and then turned his paper so the square looked like a diamond. He says it’s no longer a square. Is he right?”</td>
+          <td>KY.1.G.1<a href="#footnote33" class="footnote-link"><sup>33</sup></a></td>
+          <td>Addresses **defining attributes** of shapes versus non-defining attributes.</td>
+          <td>**Shape attributes (adapted):** “Jill drew a triangle and then colored it blue. Is it still a triangle after she colors it blue? How do you know?”</td>
+        </tr>
+        <tr>
+          <td>**Sharing a pie:** “Juan had 12 candies, he ate 1/4 of them. How many candies did he eat?”</td>
+          <td>KY.1.G.3<a href="#footnote34" class="footnote-link"><sup>34</sup></a></td>
+          <td>Adapted to a **partitioned shape** to align with 1st-grade fraction understanding.</td>
+          <td>**Sharing a pie (adapted):** “Lily cut a pie into 4 equal slices. She ate one slice. What fraction of the pie did she eat?”</td>
+        </tr>
+        <tr>
+          <td>**Class survey:** *“In a class survey of favorite seasons, 6 students chose Spring, 10 chose Summer, 4 chose Fall, and 8 chose Winter. Which season got the most votes? Which got the fewest? How many more students chose Summer than Fall?”*</td>
+          <td>KY.1.MD.4<a href="#footnote35" class="footnote-link"><sup>35</sup></a></td>
+          <td>Limited categories to three and focuses on basic data interpretation.</td>
+          <td>**Class survey (adapted):** *“Sarah asked her class about their favorite fruit. 8 students chose apples, 5 chose bananas, and 7 chose oranges. Which fruit was the most popular? How many more students liked that fruit than the least popular fruit?”*</td>
+        </tr>
+        <tr>
+          <td>**Counting sequence:** “Sam counted: 108, 109, 200… Did he count correctly? If not, what number should come after 109?”</td>
+          <td>KY.1.NBT.1<a href="#footnote36" class="footnote-link"><sup>36</sup></a></td>
+          <td>Highlights understanding of the **counting sequence and place value**.</td>
+          <td>**Counting sequence (adapted):** “Sally counted: 58, 59, 70. Did she count the sequence correctly? If not, what number comes after 59?”</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footnotes">
+      <hr/>
+      <ol>
+        <li id="footnote29" class="footnote-item">Alignment of Problem Sets to Kentucky 1st Grade Standards</li>
+        <li id="footnote30" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-1/kentucky-standards#:~:text=,2" target="_blank" rel="noopener">KY.1.OA.1 - Kentucky Academic Standards</a></li>
+        <li id="footnote31" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-1/kentucky-standards#:~:text=,addend%20problem.%20%28MP.2%2C%20MP.7" target="_blank" rel="noopener">KY.1.OA.4 - Kentucky Academic Standards</a></li>
+        <li id="footnote32" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-1/kentucky-standards#:~:text=,3" target="_blank" rel="noopener">KY.1.OA.7 - Kentucky Academic Standards</a></li>
+        <li id="footnote33" class="footnote-item"><a href="https://www.education.ky.gov/curriculum/standards/kyacadstand/Documents/First_Grade_Cluster_SMP_Activity.pdf#:~:text=KY,to%2C%20number%20of%20sides%20or" target="_blank" rel="noopener">KY.1.G.1 - Kentucky Academic Standards</a></li>
+        <li id="footnote34" class="footnote-item"><a href="https://www.education.ky.gov/curriculum/standards/kyacadstand/Documents/First_Grade_Cluster_SMP_Activity.pdf#:~:text=Coherence%20KY,Describe%20the%20whole%20as" target="_blank" rel="noopener">KY.1.G.3 - Kentucky Academic Standards</a></li>
+        <li id="footnote35" class="footnote-item"><a href="https://www.education.ky.gov/curriculum/standards/kyacadstand/Documents/First_Grade_Cluster_SMP_Activity.pdf#:~:text=KY,table%2Fchart%20with%20up%20to%20three" target="_blank" rel="noopener">KY.1.MD.4 - Kentucky Academic Standards</a></li>
+        <li id="footnote36" class="footnote-item"><a href="https://www.education.ky.gov/curriculum/standards/kyacadstand/Documents/First_Grade_Cluster_SMP_Activity.pdf#:~:text=KY,objects%20with%20a%20written%20numeral" target="_blank" rel="noopener">KY.1.NBT.1 - Kentucky Academic Standards</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div id="missouri" class="panel">
+  <div class="text-container">
+    <h2>Alignment of Problem Sets to Missouri 3rd & 4th Grade Standards<a href="#footnote37" class="footnote-link"><sup>37</sup></a></h2>
+    <p>This table shows the alignment of problems to Missouri 3rd and 4th grade standards, highlighting adaptations and notes for each grade level to ensure appropriateness and standard coverage.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Original Problem (from ALL_Problem_Sets.pdf)</th>
+          <th>3rd Grade Alignment (Standard, Notes, Adaptation)</th>
+          <th>4th Grade Alignment (Standard, Notes, Adaptation)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>**Marcy’s Dot Pattern:** *“Marcy has to determine the number of dots in the 20th step… but she does not want to draw all 20 pictures and count. Find the answer and explain how you know it is correct.”*</td>
+          <td>
+            - **Standard:** 3.RA.E.11 – Identify arithmetic patterns and explain them using properties of operations<a href="#footnote38" class="footnote-link"><sup>38</sup></a>. <br>
+            - **Notes:** This problem builds **algebraic thinking** as students discern a pattern. <br>
+            - **Reformulated (Grade 3):** *“Marcy draws a pattern of shapes: Step 1 has 2 dots, Step 2 has 4 dots, Step 3 has 6 dots. If the pattern continues, how many dots will Step 5 have? Explain how you know.”*
+          </td>
+          <td>
+            - **Standard:** 4.RA.C.6 & 4.RA.C.7 – Generate a number pattern that follows a given rule<a href="#footnote39" class="footnote-link"><sup>39</sup></a>. <br>
+            - **Notes:** By 4th grade, students not only recognize patterns but **formulate rules** and extend them. <br>
+            - **Reformulated (Grade 4):** *“Marcy’s pattern starts with 3 dots and grows by 2 more dots each step. Step 1: 3 dots, Step 2: 5 dots, Step 3: 7 dots… Without drawing every step, how many dots will Step 10 have? Explain the rule.”*
+          </td>
+        </tr>
+        <tr>
+          <td>**Coin Flip Sequences:** *“How many unique sequences of heads and tails are there if you flip a coin 2 times…, 3 times…, 9 times…?”*</td>
+          <td>
+            - **Standard:** 3.RA.E.11 – Identify arithmetic patterns and explain them<a href="#footnote38" class="footnote-link"><sup>38</sup></a>. <br>
+            - **Notes:** This problem involves **number sense and patterns**. Third graders list outcomes for 2 or 3 flips and observe the pattern doubling each time. <br>
+            - **Reformulated (Grade 3):** *“If you flip a coin 2 times, there are 4 possible outcomes (HH, HT, TH, TT). How many outcomes are possible with 3 coin flips? Can you predict the number for 4 flips?”*
+          </td>
+          <td>
+            - **Standard:** 4.RA.C.7 – Use words or symbols to express the rule for a given pattern<a href="#footnote40" class="footnote-link"><sup>40</sup></a>. <br>
+            - **Notes:** Fourth graders can tackle the deeper pattern here – an **algebraic pattern doubling at each step**. <br>
+            - **Reformulated (Grade 4):** *“Every time you flip an additional coin, the number of outcomes doubles. If 2 flips give 4 outcomes and 3 flips give 8 outcomes, how many outcomes will 5 flips have? Explain how you know without listing all possibilities.”*
+          </td>
+        </tr>
+        <tr>
+          <td>**Brothers’ Heights:** *“Brother A was 166 cm, Sister A was 67 cm, and Brother B was 173 cm. If Brother A won by 17 centimeters, how tall was Sister B?”*</td>
+          <td>
+            - **Standard:** 3.RA.D.9 – Write and solve two-step word problems involving the four operations<a href="#footnote41" class="footnote-link"><sup>41</sup></a>. <br>
+            - **Notes:** This is a multi-step **problem-solving** scenario. Third graders must first find how much taller Brother A is than Sister A. <br>
+            - **Reformulated (Grade 3):** *“Brother A is 60 cm tall and Sister A is 40 cm tall. Brother B is 65 cm tall. Brother A is 20 cm taller than his sister. Brother A stands 5 cm higher above his sister than Brother B does above his sister. How tall is Sister B?”*
+          </td>
+          <td>
+            - **Standard:** 4.RA.A.2 – Solve multi-step problems with whole numbers, including variables, and judge reasonableness<a href="#footnote42" class="footnote-link"><sup>42</sup></a>. <br>
+            - **Notes:** For 4th graders, this problem exemplifies a **two-step algebraic thinking** task. <br>
+            - **Reformulated (Grade 4):** *“Brother A is 166 cm and Sister A is 67 cm. Brother B is 173 cm. Brother A’s height advantage over his sister is 17 cm more than Brother B’s advantage over his sister. How tall is Sister B?”*
+          </td>
+        </tr>
+        <tr>
+          <td>**Unique Triangles Puzzle:** *“How many unique triangles are made by the six lines below? (one example triangle is shown in bold)”*</td>
+          <td>
+            - **Standard:** 3.GM.A.1 – Understand that shapes in different categories share attributes<a href="#footnote43" class="footnote-link"><sup>43</sup></a>. <br>
+            - **Notes:** While counting all triangles is advanced, the underlying skill is recognizing **triangles** among a complex figure. <br>
+            - **Reformulated (Grade 3):** *“Draw a large triangle on paper. Now draw one line inside the triangle from one corner to the midpoint of the opposite side. How many triangles can you find in the new figure?”*
+          </td>
+          <td>
+            - **Standard:** 4.GM.A.1 & 4.GM.A.2 – Draw/identify lines, shapes & Classify 2D shapes by properties<a href="#footnote44" class="footnote-link"><sup>44</sup></a>. <br>
+            - **Notes:** The six-lines triangle puzzle challenges 4th graders to apply their knowledge of **geometry and classification**. <br>
+            - **Reformulated (Grade 4):** *“Draw a triangle. From two vertices, draw lines to opposite sides (inside) intersecting each other. How many triangles can you find?”*
+          </td>
+        </tr>
+        <tr>
+          <td>**Fraction of Candies:** *“Juan had 12 candies, he ate 1/4 of them. How many candies did he eat?”*</td>
+          <td>
+            - **Standard:** 3.NF.A.2 – Understand a fraction as a portion of a whole<a href="#footnote45" class="footnote-link"><sup>45</sup></a>. <br>
+            - **Notes:** This problem addresses **fractions and division**. For a 3rd grader, interpreting “$\frac{1}{4}$ of 12” is an application of understanding fractions as equal parts. <br>
+            - **Reformulated (Grade 3):** *“Juan has 12 candies and wants to share them equally among 4 friends. How many candies is 1/4 of his candies?”*
+          </td>
+          <td>
+            - **Standard:** 4.NF.B.8 – Solve problems involving multiplication of a fraction by a whole number<a href="#footnote46" class="footnote-link"><sup>46</sup></a>. <br>
+            - **Notes:** In 4th grade, finding 1/4 of 12 is viewed as a **fraction multiplication** problem: $12 \times \frac{1}{4}=3$. <br>
+            - **Reformulated (Grade 4):** *“Juan had 12 candies, and he ate 3/4 of them. How many candies did he eat?”* (Using a non-unit fraction)
+          </td>
+        </tr>
+        <tr>
+          <td>**Equal Sharing Division:** *“There are 12 children around the table for the birthday party, and there are 4 tables. How many will sit at each table, if the tables all have the same number of children?”*</td>
+          <td>
+            - **Standard:** 3.RA.A.4 – Use multiplication and division within 100 to solve problems<a href="#footnote41" class="footnote-link"><sup>41</sup></a>. <br>
+            - **Notes:** This is a straightforward **division (number sense)** problem. It aligns perfectly with 3rd grade expectations. <br>
+            - **Reformulated (Grade 3):** (Original problem is suitable for 3rd grade.)
+          </td>
+          <td>
+            - **Standard:** 4.NBT.A.7 – Find whole-number quotients and remainders with up to four-digit dividends and one-digit divisors<a href="#footnote47" class="footnote-link"><sup>47</sup></a>. <br>
+            - **Notes:** By 4th grade, students tackle larger division problems, but the **concept of equal grouping** remains foundational. <br>
+            - **Reformulated (Grade 4):** *“There are 144 children attending a party, and they will be evenly seated at 4 tables. How many children will sit at each table?”* (Larger dividend)
+          </td>
+        </tr>
+        <tr>
+          <td>**Multiplicative Comparison:** *“Sam just got some money from her grandmother and now has 4 times as much as she had before. If she now has 12 dollars, how many dollars did she have before?”*</td>
+          <td>
+            - **Standard:** 3.RA.A.4 – Use multiplication and division within 100 to solve problems<a href="#footnote41" class="footnote-link"><sup>41</sup></a>. <br>
+            - **Notes:** In 3rd grade, multiplication problems are often phrased as equal groups or arrays, and “4 times as much” is an early exposure to multiplicative comparison. <br>
+            - **Reformulated (Grade 3):** (Original problem is suitable for 3rd grade.)
+          </td>
+          <td>
+            - **Standard:** 4.RA.A.1 – Multiply or divide to solve problems involving multiplicative comparison<a href="#footnote48" class="footnote-link"><sup>48</sup></a>. <br>
+            - **Notes:** This problem exemplifies a 4th grade **multiplicative comparison**: “now has 12, which is 4 times as much as before.” <br>
+            - **Reformulated (Grade 4):** *“Sam now has 20 dollars, which is 5 times as much money as she had before. How much did she have before?”* (Different factor for practice)
+          </td>
+        </tr>
+        <tr>
+          <td>**Fraction of Marbles Lost:** *“Roberto had 12 marbles before playing with Ron. He now has 3 marbles. What fraction of his marbles did he lose?”*</td>
+          <td>
+            - **Standard:** 3.NF.A.5 – Recognize and generate simple equivalent fractions using visual models<a href="#footnote49" class="footnote-link"><sup>49</sup></a>. <br>
+            - **Notes:** Roberto’s situation involves finding the **fraction of the whole** that was lost. Simplifying 9/12 to 3/4 is encouraged. <br>
+            - **Reformulated (Grade 3):** *“Roberto had 12 marbles. He lost 9 of them. What fraction of his marbles is 9 out of 12?”* (Emphasize the fraction idea)
+          </td>
+          <td>
+            - **Standard:** 4.NF.A.2 – Recognize and generate equivalent fractions<a href="#footnote50" class="footnote-link"><sup>50</sup></a>. <br>
+            - **Notes:** Fourth graders should comfortably simplify 9/12 to 3/4 by finding common factors. <br>
+            - **Reformulated (Grade 4):** *“Roberto had 10 marbles and now has 4. What fraction of his marbles did he lose?”* (Different numbers, reducible fraction 6/10 -> 3/5)
+          </td>
+        </tr>
+        <tr>
+          <td>**Multi-Step Marble Games:** *“Michelle played two games of marbles. In the second game she doubled her marbles... she finds that she now has 6 times as many marbles as when she started. What happened in the first game?”*</td>
+          <td>
+            - **Standard:** 3.RA.D.9 – Solve two-step problems using the four operations, using a symbol for the unknown<a href="#footnote41" class="footnote-link"><sup>41</sup></a>. <br>
+            - **Notes:** This problem involves **multi-step reasoning** with multiplication. It can be broken into steps for 3rd graders. <br>
+            - **Reformulated (Grade 3):** *“In the second game, Michelle doubled her marbles. After both games, she has 4 times as many marbles as when she started. What happened in the first game?”* (Simplified multiplicative relationship)
+          </td>
+          <td>
+            - **Standard:** 4.RA.A.2 – Solve multi-step problems with whole numbers and variables<a href="#footnote42" class="footnote-link"><sup>42</sup></a>. <br>
+            - **Notes:** This scenario is well-suited for 4th grade as a rich **algebraic thinking** problem. <br>
+            - **Reformulated (Grade 4):** *“Michelle ended up with 6 times as many marbles as she started with. She knows in the second game she doubled her marbles. By what factor did her marbles multiply in the first game?”* (Clearer phrasing for 4th graders)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footnotes">
+      <hr/>
+      <ol>
+        <li id="footnote37" class="footnote-item">Alignment of Problem Sets to Missouri 3rd & 4th Grade Standards</li>
+        <li id="footnote38" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-3#:~:text=%2A%20,explain%20arithmetic%20patterns" target="_blank" rel="noopener">3.RA.E.11 – Missouri 3rd Grade Standards (IXL)</a></li>
+        <li id="footnote39" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-4#:~:text=%2A%20,that%20follows%20a%20given%20rule" target="_blank" rel="noopener">4.RA.C.6 & 4.RA.C.7 – Missouri 4th Grade Standards (IXL)</a></li>
+        <li id="footnote40" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-4#:~:text=%2A%20,rule%20for%20a%20given%20pattern" target="_blank" rel="noopener">4.RA.C.7 – Missouri 4th Grade Standards (IXL)</a></li>
+        <li id="footnote41" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-3#:~:text=%2A%20,operations%20to%20solve%20word%20problems" target="_blank" rel="noopener">3.RA.D.9 & 3.RA.A.4 – Missouri 3rd Grade Standards (IXL)</a></li>
+        <li id="footnote42" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-4#:~:text=,the%20reasonableness%20of%20the%20answer" target="_blank" rel="noopener">4.RA.A.2 – Missouri 4th Grade Standards (IXL)</a></li>
+        <li id="footnote43" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-3#:~:text=%2A%20,shapes%20and%20their%20attributes" target="_blank" rel="noopener">3.GM.A.1 – Missouri 3rd Grade Standards (IXL)</a></li>
+        <li id="footnote44" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-4#:~:text=%2A%20,perpendicular%20lines%20and%20parallel%20lines" target="_blank" rel="noopener">4.GM.A.1 & 4.GM.A.2 – Missouri 4th Grade Standards (IXL)</a></li>
+        <li id="footnote45" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-3#:~:text=%2A%20,a%20portion%20of%20the%20whole" target="_blank" rel="noopener">3.NF.A.2 – Missouri 3rd Grade Standards (IXL)</a></li>
+        <li id="footnote46" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-4#:~:text=%2A%20,fraction%20by%20a%20whole%20number" target="_blank" rel="noopener">4.NF.B.8 – Missouri 4th Grade Standards (IXL)</a></li>
+        <li id="footnote47" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-4#:~:text=match%20at%20L261%20%2A%20,divisors%2C%20and%20justify%20the%20solution" target="_blank" rel="noopener">4.NBT.A.7 – Missouri 4th Grade Standards (IXL)</a></li>
+        <li id="footnote48" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-4#:~:text=%2A%20,problems%20involving%20a%20multiplicative%20comparison" target="_blank" rel="noopener">4.RA.A.1 – Missouri 4th Grade Standards (IXL)</a></li>
+        <li id="footnote49" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-3#:~:text=match%20at%20L293%20%2A%20,why%20the%20fractions%20are%20equivalent" target="_blank" rel="noopener">3.NF.A.5 – Missouri 3rd Grade Standards (IXL)</a></li>
+        <li id="footnote50" class="footnote-item"><a href="https://www.ixl.com/standards/missouri/math/grade-4#:~:text=,Recognize%20and%20generate%20equivalent%20fractions" target="_blank" rel="noopener">4.NF.A.2 – Missouri 4th Grade Standards (IXL)</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div id="indiana-wyoming" class="panel">
+  <div class="text-container">
+    <h2>Alignment to Indiana & Wyoming Standards (Grade 2)<a href="#footnote51" class="footnote-link"><sup>51</sup></a></h2>
+    <p>This table provides an alignment of problems to both Indiana and Wyoming educational standards, specifically focusing on adaptations for 2nd grade in Wyoming, while also referencing Indiana standards for broader context.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Original Problem</th>
+          <th>Relevant Standards (Indiana & Wyoming)</th>
+          <th>Notes on Alignment</th>
+          <th>Reformulated Problem (2nd Grade, Wyoming)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>**“How Many Cups?”** – (First three cups measure 8.1 cm, 7.6 cm, 7.1 cm. The last cup is 2.6 cm tall.)</td>
+          <td>• *Indiana:* 5.C.8 – Add, subtract, multiply, and divide decimals to hundredths<a href="#footnote52" class="footnote-link"><sup>52</sup></a>.<br>• *Wyoming:* 5.NBT.D.7 – Perform operations with decimals to hundredths<a href="#footnote53" class="footnote-link"><sup>53</sup></a>.</td>
+          <td>Involves adding measurements with decimals (Grade 5 standard).</td>
+          <td>**Stacking Cups (Grade 2):** *“One cup is 7 cm tall. How tall will a stack of 4 such cups be?”*</td>
+        </tr>
+        <tr>
+          <td>**Candy Multiplication:** “Brother had 3 candies, and Sister had 6 candies. How many times as much candy did Sister have than Brother?”</td>
+          <td>• *Indiana:* 4.AT.4 – Solve real-world problems involving multiplicative comparison<a href="#footnote54" class="footnote-link"><sup>54</sup></a>.<br>• *Wyoming:* 4.OA.A.2 – Multiply or divide to solve word problems involving multiplicative comparison<a href="#footnote55" class="footnote-link"><sup>55</sup></a>.</td>
+          <td>A multiplicative comparison problem (Grade 4 standard).</td>
+          <td>**Candy Comparison (Grade 2):** *“Brother has 3 candies and Sister has 6 candies. How many more candies does Sister have than Brother?”*</td>
+        </tr>
+        <tr>
+          <td>**Height Difference:** “Brother A is 166 cm tall and his sister is 67 cm. Brother B is 173 cm tall. If Brother A stands 17 cm taller over his sister than Brother B does over his sister, how tall is Sister B?”</td>
+          <td>• *Indiana:* 3.AT.3 – Solve two-step real-world problems using the four operations<a href="#footnote56" class="footnote-link"><sup>56</sup></a>.<br>• *Wyoming:* 3.OA.8 – Solve two-step word problems using the four operations<a href="#footnote57" class="footnote-link"><sup>57</sup></a>.</td>
+          <td>Multi-step problem involving height differences (Grade 3 standard).</td>
+          <td>**Sibling Height (Grade 2):** *“Tom is 48 inches tall; his sister is 45 inches tall. Sam is 50 inches tall; his sister is 46 inches tall. Who has a bigger height difference between brother and sister?”*</td>
+        </tr>
+        <tr>
+          <td>**Triangles from Lines:** “How many unique triangles can be formed by the six lines shown? (One example triangle is bolded in the diagram.)”</td>
+          <td>• *Indiana (Process)*: Math Process **PS.7** – Look for and make use of structure<a href="#footnote58" class="footnote-link"><sup>58</sup></a>.<br>• *Wyoming (Practice)*: **MP.7** – Look for and make use of structure<a href="#footnote53" class="footnote-link"><sup>53</sup></a>.</td>
+          <td>Requires structural insight in geometry (Mathematical Practice).</td>
+          <td>**Triangle Hunt (Grade 2):** *“Amy draws a big triangle. Then she draws a line from one corner of the triangle to the midpoint of the opposite side. How many triangles do you see now?”*</td>
+        </tr>
+        <tr>
+          <td>**Penny Triangle Puzzle:** “36 pennies are arranged in a triangle. What is the fewest number of moves to turn the triangle upside down, if you can move only one penny at a time?"</td>
+          <td>• *Indiana (Process)*: Math Process **PS.1** – Make sense of problems and persevere in solving them<a href="#footnote59" class="footnote-link"><sup>59</sup></a>.<br>• *Wyoming (Practice)*: **MP.1** – Understand the problem and explore simpler cases<a href="#footnote59" class="footnote-link"><sup>59</sup></a>.</td>
+          <td>Open-ended puzzle emphasizing problem-solving perseverance (Mathematical Practice).</td>
+          <td>**Coin Triangle (Grade 2):** *“Arrange 6 coins in a triangle. By moving just one coin, can you flip the triangle upside down?”*</td>
+        </tr>
+        <tr>
+          <td>**Growing Dot Pattern:** “Marcy has a pattern of dots in steps. She wants the number of dots in the 20th step without drawing all 20."</td>
+          <td>• *Indiana:* 4.AT.6 – Describe a relationship between two variables; generate a number pattern given a rule<a href="#footnote54" class="footnote-link"><sup>54</sup></a>.<br>• *Wyoming:* 4.OA.C.5 – Generate and analyze patterns that follow a given rule<a href="#footnote60" class="footnote-link"><sup>60</sup></a>.</td>
+          <td>Finding the nth term of a sequence (Grade 4 standard).</td>
+          <td>**Simple Pattern (Grade 2):** *“Step 1 has 2 dots, Step 2 has 4 dots, Step 3 has 6 dots. If this pattern continues, how many dots will Step 5 have?”*</td>
+        </tr>
+        <tr>
+          <td>**Coin Flip Outcomes:** “How many distinct sequences of heads and tails are possible if you flip a coin… 2 times? 3 times? … 9 times?"</td>
+          <td>• *Indiana:* 7.DSP.5 – Develop probability models including sample space<a href="#footnote61" class="footnote-link"><sup>61</sup></a>.<br>• *Wyoming:* 7.SP.8(b) – Represent sample spaces for compound events<a href="#footnote62" class="footnote-link"><sup>62</sup></a>.</td>
+          <td>Listing coin-flip outcomes (Grade 7 standard).</td>
+          <td>**Outfit Combinations (Grade 2):** *“Sam has 2 hats and 2 shirts. How many different outfits can he make?”*</td>
+        </tr>
+        <tr>
+          <td>**John’s Candies:** “John had 8 candies. He eats 3 of them. How many candies does he have now?”</td>
+          <td>• *Indiana:* 2.CA.2 – Solve real-world addition and subtraction problems within 100<a href="#footnote63" class="footnote-link"><sup>63</sup></a>.<br>• *Wyoming:* 2.OA.A.1 – Use addition and subtraction within 100 to solve one-step word problems<a href="#footnote64" class="footnote-link"><sup>64</sup></a>.</td>
+          <td>Simple “taking from” scenario within 10 (Grade 2 standard).</td>
+          <td>*(Reformulated problem is already at a Grade 2 level.)* John’s scenario itself is appropriate for Wyoming 2nd graders.</td>
+        </tr>
+        <tr>
+          <td>**Birthday Juice:** “There are 8 children at Dorothy’s birthday table, and 3 of them are drinking juice. How many children are not drinking juice?”</td>
+          <td>• *Indiana:* 2.CA.2<a href="#footnote63" class="footnote-link"><sup>63</sup></a>.<br>• *Wyoming:* 2.OA.A.1<a href="#footnote64" class="footnote-link"><sup>64</sup></a>.</td>
+          <td>A “take apart” problem with subtraction within 10 (Grade 2 standard).</td>
+          <td>*(Original is already a Grade 2-level problem.)*</td>
+        </tr>
+        <tr>
+          <td>**Juanita’s Money:** “Juanita’s grandmother gave her $3. Now Juanita has $8. How many dollars did she have before?”</td>
+          <td>• *Indiana:* 2.CA.2<a href="#footnote63" class="footnote-link"><sup>63</sup></a>.<br>• *Wyoming:* 2.OA.A.1<a href="#footnote64" class="footnote-link"><sup>64</sup></a>.</td>
+          <td>An “adding to, start unknown” problem within 10 (Grade 2 standard).</td>
+          <td>*(Original is already a Grade 2-level problem.)*</td>
+        </tr>
+        <tr>
+          <td>**Robert’s Marbles:** “Robert had 8 marbles before playing a game with Ruth. He now has 3 marbles. How many marbles did he lose during the game?”</td>
+          <td>• *Indiana:* 2.CA.2<a href="#footnote63" class="footnote-link"><sup>63</sup></a>.<br>• *Wyoming:* 2.OA.A.1<a href="#footnote64" class="footnote-link"><sup>64</sup></a>.</td>
+          <td>A “change unknown” take-from problem within 10 (Grade 2 standard).</td>
+          <td>*(Original is already a Grade 2-level problem.)*</td>
+        </tr>
+        <tr>
+          <td>**Susan and Claire:** “Susan has $3 and Claire has $8. How much less money does Susan have than Claire?”</td>
+          <td>• *Indiana:* 2.CA.2<a href="#footnote63" class="footnote-link"><sup>63</sup></a>.<br>• *Wyoming:* 2.OA.A.1<a href="#footnote64" class="footnote-link"><sup>64</sup></a>.</td>
+          <td>A comparison (difference unknown) problem within 10 (Grade 2 standard).</td>
+          <td>*(Original is already a Grade 2-level problem.)*</td>
+        </tr>
+        <tr>
+          <td>**Ally’s Marbles:** “Ally won some marbles in two games. In the second game she won 3 marbles. After both games, she has 8 marbles in total from her wins. How many marbles did she win in the first game?”</td>
+          <td>• *Indiana:* 2.CA.2<a href="#footnote63" class="footnote-link"><sup>63</sup></a>.<br>• *Wyoming:* 2.OA.A.1<a href="#footnote64" class="footnote-link"><sup>64</sup></a>.</td>
+          <td>An “adding to, change unknown” scenario within 10 (Grade 2 standard).</td>
+          <td>*(Original is already a Grade 2-level problem.)*</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footnotes">
+      <hr/>
+      <ol>
+        <li id="footnote51" class="footnote-item">Alignment to Indiana & Wyoming Standards (Grade 2)</li>
+        <li id="footnote52" class="footnote-item"><a href="https://www.in.gov/doe/files/Grade-5-Math-Standards-Dec-2020-R.pdf#:~:text=5,strategy%20and%20explain%20the%20reasoning" target="_blank" rel="noopener">Indiana 5.C.8 - Indiana Academic Standards</a></li>
+        <li id="footnote53" class="footnote-item"><a href="https://edu.wyoming.gov/wp-content/uploads/2024/07/Grade-5-Standards-2022.pdf#:~:text=5,and%20explain%20the%20reasoning%20used" target="_blank" rel="noopener">Wyoming 5.NBT.D.7 & MP.7 - Wyoming Content and Performance Standards</a></li>
+        <li id="footnote54" class="footnote-item"><a href="https://www.in.gov/doe/files/Grade-4-Math-Standards-Dec-2020-R.pdf#:~:text=4.AT.4%20Solve%20real,number%20to%20represent%20the%20problem" target="_blank" rel="noopener">Indiana 4.AT.4 & 4.AT.6 - Indiana Academic Standards</a></li>
+        <li id="footnote55" class="footnote-item"><a href="https://edu.wyoming.gov/downloads/assessments/2015/2016-released-items-math-grade-4.pdf#:~:text=2012%20WyCPS%20Standard%3A%204,multiplicative%20comparison%20from%20additive%20comparison" target="_blank" rel="noopener">Wyoming 4.OA.A.2 - Wyoming Content and Performance Standards</a></li>
+        <li id="footnote56" class="footnote-item"><a href="https://newpathworksheets.com/math/grade-3/indiana-standards#:~:text=%23%203.AT.3.%20Solve%20two,number%20to%20represent%20the%20problem" target="_blank" rel="noopener">Indiana 3.AT.3 - Indiana Academic Standards</a></li>
+        <li id="footnote57" class="footnote-item"><a href="https://edu.wyoming.gov/downloads/assessments/2015/2014-released-items-math-grade-3.pdf#:~:text=2012%20WyCPS%20Standard%3A%203,parentheses%20to%20specify%20a%20particular" target="_blank" rel="noopener">Wyoming 3.OA.8 - Wyoming Content and Performance Standards</a></li>
+        <li id="footnote58" class="footnote-item"><a href="https://www.in.gov/doe/files/Grade-2-Math-Standards-Dec-2020-R.pdf#:~:text=PS,being%20composed%20of%20several%20objects" target="_blank" rel="noopener">Indiana PS.7 - Indiana Academic Standards</a></li>
+        <li id="footnote59" class="footnote-item"><a href="https://edu.wyoming.gov/wp-content/uploads/2024/07/Grade-2-Standards-2022.pdf#:~:text=2,and%20look%20for%20ways%20to" target="_blank" rel="noopener">Wyoming MP.1 - Wyoming Content and Performance Standards</a></li>
+        <li id="footnote60" class="footnote-item"><a href="https://edu.wyoming.gov/wp-content/uploads/2024/07/Grade-4-Standards-2022.pdf#:~:text=Generate%20and%20analyze%20patterns,the%20pattern%20that%20were%20not" target="_blank" rel="noopener">Wyoming 4.OA.C.5 - Wyoming Content and Performance Standards</a></li>
+        <li id="footnote61" class="footnote-item"><a href="https://www.in.gov/doe/files/Grade7-Math-Content-Connectors.docx.pdf#:~:text=7,7" target="_blank" rel="noopener">Indiana 7.DSP.5 - Indiana Academic Standards</a></li>
+        <li id="footnote62" class="footnote-item"><a href="https://tasks.illustrativemathematics.org/content-standards/7/SP/C/8#:~:text=a%20Understand%20that%2C%20just%20as,which%20the%20compound%20event%20occurs" target="_blank" rel="noopener">Wyoming 7.SP.8(b) - Illustrative Mathematics</a></li>
+        <li id="footnote63" class="footnote-item"><a href="https://www.in.gov/doe/files/Grade-2-Math-Standards-Dec-2020-R.pdf#:~:text=2.CA.2%20Solve%20real,are%20reasonable%20in%20addition%20problems" target="_blank" rel="noopener">Indiana 2.CA.2 - Indiana Academic Standards</a></li>
+        <li id="footnote64" class="footnote-item"><a href="https://edu.wyoming.gov/wp-content/uploads/2024/07/Grade-2-Standards-2022.pdf#:~:text=2,apart%2C%20and%20comparing%2C%20with%20unknowns" target="_blank" rel="noopener">Wyoming 2.OA.A.1 - Wyoming Content and Performance Standards</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div id="all-regions" class="panel">
+  <div class="text-container">
+    <h2>Standards and Curriculum Resources Across Regions<a href="#footnote65" class="footnote-link"><sup>65</sup></a></h2>
+    <p>This section provides a comparative overview of the standards documents, curriculum guides, teaching strategies, and assessment methods used in different educational regions, focusing on elementary mathematics education.</p>
+
+    <h3>Indiana (Grades K–5)</h3>
+    <p>Indiana's **Academic Standards for Mathematics**<a href="#footnote66" class="footnote-link"><sup>66</sup></a> detail grade-level content and are supplemented by "Process Standards." The Indiana Dept. of Education (IDOE) provides downloadable grade-specific documents and <a href="#footnote67" class="footnote-link"><sup>67</sup></a> correlation guides aligning Indiana standards to Common Core. Curriculum support includes **Math Frameworks (2023)**<a href="#footnote68" class="footnote-link"><sup>68</sup></a> from the Indiana Learning Lab, offering instructional guidance and teaching tips. Teaching strategies emphasize mathematical practices integrated into instruction, with assessment guidance via IDOE resources and formative assessments aligned to K–5 standards.</p>
+
+    <h3>Ireland (1st Grade)</h3>
+    <p>Ireland's primary mathematics curriculum is in the **Primary School Mathematics Curriculum (1999)**<a href="#footnote69" class="footnote-link"><sup>69</sup></a>, updated in 2023. The curriculum outlines content for *First Class* across five strands, with learning objectives for each. The National Council for Curriculum and Assessment (NCCA) provides **Teacher Guidelines (1999)**<a href="#footnote70" class="footnote-link"><sup>70</sup></a> and a **Primary Mathematics Toolkit**<a href="#footnote71" class="footnote-link"><sup>71</sup></a> with activities and planning tools. Teaching strategies center on problem-solving and active learning, using manipulatives and real-world contexts. Assessment is curriculum-aligned, using checklists and tasks, with <a href="#footnote72" class="footnote-link"><sup>72</sup></a> assessment guidelines from the Department of Education.</p>
+
+    <h3>Pennsylvania (1st Grade)</h3>
+    <p>Pennsylvania's 1st grade math standards are part of the **PA Core Standards for Mathematics**<a href="#footnote73" class="footnote-link"><sup>73</sup></a>, closely aligned to Common Core. The standards cover Mathematical Content and Mathematical Practice. The PA Department of Education (PDE) provides standards on its website and via the Standards Aligned System (SAS) portal. Curriculum guides include PDE’s **Standards Aligned System (SAS)**<a href="#footnote74" class="footnote-link"><sup>74</sup></a>, offering Instructional Frameworks and a Voluntary Model Curriculum. Teaching strategies include manipulatives and visual models, embedding Mathematical Practice Standards. Assessment guidance is provided through Assessment Anchors/Eligible Content and classroom diagnostic tools on SAS.</p>
+
+    <h3>Kentucky (1st Grade)</h3>
+    <p>Kentucky’s 1st grade math standards are in the **Kentucky Academic Standards (KAS) for Mathematics**<a href="#footnote75" class="footnote-link"><sup>75</sup></a> (adopted 2019), including content and Mathematical Practice Standards. The Kentucky Department of Education (KDE) supports these with **“Standards Overview” documents and deconstructions**<a href="#footnote76" class="footnote-link"><sup>76</sup></a> on its KY Standards website, along with Standards Implementation Guides and Instructional Resources. Teaching strategies emphasize mathematical practices, with assessment encouraged through Continuous Classroom Assessment and common benchmark assessments aligned to KAS.</p>
+
+    <h3>Tennessee (Grades 1 and 4)</h3>
+    <p>Tennessee’s math standards are in the **Tennessee Academic Standards for Mathematics**<a href="#footnote77" class="footnote-link"><sup>77</sup></a>, developed by Tennessee educators and including Mathematical Practice Standards. The Tennessee Department of Education provides **Instructional Focus Documents (IFDs)**<a href="#footnote78" class="footnote-link"><sup>78</sup></a> for each grade, outlining standards, learning evidence, and instructional focus. Resources include the **Best for All Central** platform<a href="#footnote79" class="footnote-link"><sup>79</sup></a> with lesson plans and curricular materials, and assessment guidance through IFD performance levels and assessment blueprints for state testing starting in grade 3.</p>
+
+    <h3>Wyoming (Grades K–2)</h3>
+    <p>Wyoming’s math standards are in the **Wyoming Content and Performance Standards 2021 (WYCPS)**<a href="#footnote80" class="footnote-link"><sup>80</sup></a>, built on the Common Core framework and including Mathematical Practice Standards. Wyoming provides **Performance Level Descriptors (PLDs)**<a href="#footnote81" class="footnote-link"><sup>81</sup></a> alongside Content Standards, offering assessment guidance. Curriculum resources are often drawn from Common Core instructional materials, with professional development modules from the Wyoming Department of Education (WDE). Teaching and assessment strategies are guided by Performance Standards and district assessment systems, emphasizing hands-on learning and exploratory math activities.</p>
+
+    <h3>Michigan (Grades 2–3)</h3>
+    <p>Michigan's math standards for grades 2 and 3 are the **Michigan K–12 Academic Standards for Mathematics**<a href="#footnote82" class="footnote-link"><sup>82</sup></a>, effectively Michigan’s adoption of the Common Core State Standards (CCSS). The Michigan Department of Education (MDE) provides resources like **Achieve’s EQuIP rubrics and EdReports**<a href="#footnote83" class="footnote-link"><sup>83</sup></a> and collaborates with Intermediate School Districts for **MAISA Math Curriculum Units**<a href="#footnote84" class="footnote-link"><sup>84</sup></a>. Teaching strategies align with CCSS, using visual models and encouraging student discussion. Assessment includes the state-level M-STEP starting in grade 3, with MDE providing released item samples and blueprints.</p>
+
+    <h3>Illinois (Grades 2–4)</h3>
+    <p>Illinois adopts Common Core as **Illinois Learning Standards (ILS) for Mathematics**<a href="#footnote85" class="footnote-link"><sup>85</sup></a>. The Illinois State Board of Education (ISBE) offers a **Model Mathematics Curriculum**<a href="#footnote86" class="footnote-link"><sup>86</sup></a>, providing scope-and-sequence units and sample lesson plans. ISBE also offers “unpacking” documents and assessment resources like Illinois Assessment of Readiness (IAR) blueprints. Teaching strategies emphasize deep understanding and application, with assessment including classroom formative assessments and the state IAR assessment starting in grade 3.</p>
+
+    <h3>Missouri (Grades 2–4)</h3>
+    <p>Missouri’s math standards are **Missouri Learning Standards (MLS)**<a href="#footnote87" class="footnote-link"><sup>87</sup></a> for Math, with Grade-Level Expectations (GLEs). The Missouri Department of Elementary and Secondary Education (DESE) provides **Expanded Expectations documents**<a href="#footnote88" class="footnote-link"><sup>88</sup></a> and **Priority Standards**<a href="#footnote89" class="footnote-link"><sup>89</sup></a>. Curriculum support includes DESE’s Math Curriculum units, Math Learning Progressions, and Vertical Alignments. Teaching strategies encourage manipulatives and representations, with assessment guidelines from the Missouri Assessment Program (MAP) and released practice forms.</p>
+
+    <h3>Arizona (Grades 2–4)</h3>
+    <p>Arizona’s math standards are in the **Arizona Mathematics Standards**<a href="#footnote90" class="footnote-link"><sup>90</sup></a> (adopted December 2016). The Arizona Dept. of Education (ADE) supports these with **Mathematics Progression Documents**<a href="#footnote91" class="footnote-link"><sup>91</sup></a>, Content Emphasis documents, and resources like the Arizona Academic Standards Case portal. Teaching strategies involve number sense routines, problem-based learning, and math discourse, with assessment through the state-level AASA assessment and ADE-provided sample tasks and item banks.</p>
+
+    <div class="footnotes">
+      <hr/>
+      <ol>
+        <li id="footnote65" class="footnote-item">Standards and Curriculum Resources Across Regions</li>
+        <li id="footnote66" class="footnote-item"><a href="https://www.in.gov/doe/students/indiana-academic-standards/mathematics/#:~:text=The%20Indiana%20Academic%20Standards%20for,synthesize%20and%20apply%20mathematical%20skills" target="_blank" rel="noopener">Indiana Academic Standards for Mathematics</a></li>
+        <li id="footnote67" class="footnote-item"><a href="https://www.in.gov/doe/students/indiana-academic-standards/mathematics/#:~:text=Correlation%20Guides%202023%20IAS%2FCCSS%20Correlation,6%20PDF%20PDF%20%2093PDF" target="_blank" rel="noopener">IDOE Correlation Guides</a></li>
+        <li id="footnote68" class="footnote-item"><a href="https://inlearninglab.com/collections?tags[]=IDOE+Framework#:~:text=Collections%20,5%20grades%206" target="_blank" rel="noopener">Indiana Learning Lab - Math Frameworks (2023)</a></li>
+        <li id="footnote69" class="footnote-item"><a href="https://www.curriculumonline.ie/getmedia/9df5f3c5-257b-471e-8d0f-f2cf059af941/PSEC02_Mathematics_Curriculum.pdf#:~:text=The%20structure%20of%20the%20curriculum,separate%20sections%2C%20are%20not%20isolated" target="_blank" rel="noopener">Primary School Mathematics Curriculum (1999)</a></li>
+        <li id="footnote70" class="footnote-item"><a href="https://www.curriculumonline.ie/primary/curriculum-areas/mathematics/#:~:text=,179" target="_blank" rel="noopener">NCCA Teacher Guidelines (1999) for Mathematics</a></li>
+        <li id="footnote71" class="footnote-item"><a href="https://www.curriculumonline.ie/primary/curriculum-areas/mathematics/#:~:text=Welcome%20to%20the%20Primary%20Mathematics,all%20Primary%20and%20Special%20schools" target="_blank" rel="noopener">NCCA Primary Mathematics Toolkit</a></li>
+        <li id="footnote72" class="footnote-item"><a href="https://www.curriculumonline.ie/getmedia/9df5f3c5-257b-471e-8d0f-f2cf059af941/PSEC02_Mathematics_Curriculum.pdf#:~:text=It%20should%20be%20recognised%20that,should%20be%20sufficiently%20flexible%20to" target="_blank" rel="noopener">Irish Department of Education - Assessment Guidelines</a></li>
+        <li id="footnote73" class="footnote-item"><a href="https://static.pdesas.org/content/documents/PA%20Core%20Standards%20Mathematics%20PreK-12%20March%202014.pdf#:~:text=This%20document%20includes%20PA%20Core,1%20Numbers%20and%20Operations" target="_blank" rel="noopener">PA Core Standards for Mathematics</a></li>
+        <li id="footnote74" class="footnote-item"><a href="https://www.pdesas.org/standard/view#:~:text=,POWER%20Library" target="_blank" rel="noopener">PDE Standards Aligned System (SAS)</a></li>
+        <li id="footnote75" class="footnote-item"><a href="https://www.education.ky.gov/curriculum/standards/kyacadstand/Documents/701040_Primary_Mathematics_Grade_1_2019.pdf#:~:text=%E2%9E%A2Make%20sense%20of%20problems%20and,OA%20Operations%20and%20Algebraic%20Thinking" target="_blank" rel="noopener">Kentucky Academic Standards (KAS) for Mathematics</a></li>
+        <li id="footnote76" class="footnote-item"><a href="https://www.education.ky.gov/curriculum/standards/kyacadstand/Documents/701040_Primary_Mathematics_Grade_1_2019.pdf#:~:text=Grade%20level%3A%201%20Course%20standards,should%20be%20able%20to%3A%20Standards" target="_blank" rel="noopener">KDE "Standards Overview" documents and deconstructions</a></li>
+        <li id="footnote77" class="footnote-item"><a href="https://www.tn.gov/content/dam/tn/stateboardofeducation/documents/massivemeetingsfolder/meetingfiles3/4-15-16_V_A_Math_Standards_Attachment.pdf#:~:text=The%20Process%20The%20Tennessee%20State,higher%20education%20reviewed%20each%20standard" target="_blank" rel="noopener">Tennessee Academic Standards for Mathematics</a></li>
+        <li id="footnote78" class="footnote-item"><a href="https://www.tn.gov/content/dam/tn/education/standards/math/Standards_Support_grade_1_Mathematics.pdf#:~:text=The%20purpose%20of%20this%20document,level%20conceptual" target="_blank" rel="noopener">Tennessee Instructional Focus Documents (IFDs)</a></li>
+        <li id="footnote79" class="footnote-item"><a href="https://bestforall.tnedu.gov/academic-standards/math#:~:text=BFAC%20,verbal%20explanations%2C%20expressions%2C%20or" target="_blank" rel="noopener">Tennessee Best for All Central platform</a></li>
+        <li id="footnote80" class="footnote-item"><a href="https://edu.wyoming.gov/wp-content/uploads/2022/08/2021-Math-WYCPS-PLDs-2.pdf#:~:text=Key%3A%20K,HS%20%E2%80%93%20Geometry%20%28G" target="_blank" rel="noopener">Wyoming Content and Performance Standards 2021 (WYCPS)</a></li>
+        <li id="footnote81" class="footnote-item"><a href="https://edu.wyoming.gov/wp-content/uploads/2022/08/2021-Math-WYCPS-PLDs-2.pdf#:~:text=standards,They%20specify%20the%20degree%20of" target="_blank" rel="noopener">Wyoming Performance Level Descriptors (PLDs)</a></li>
+        <li id="footnote82" class="footnote-item"><a href="https://www.michigan.gov/mde/-/media/Project/Websites/mde/Literacy/Content-Standards/Math_Standards.pdf?rev=1e793e2b1e314e4fa1abc754251b5dc9&hash=E928B99608A2C6642EA3E19E67CCCD39#:~:text=The%20Standards%20begin%20on%20page,4" target="_blank" rel="noopener">Michigan K–12 Academic Standards for Mathematics</a></li>
+        <li id="footnote83" class="footnote-item"><a href="https://www.michigan.gov/mde/services/academic-standards/literacy/early-literacy-content-standards#:~:text=,Literacy%20Development%20and%20Science%20Instruction" target="_blank" rel="noopener">MDE - Achieve’s EQuIP rubrics and EdReports</a></li>
+        <li id="footnote84" class="footnote-item"><a href="https://www.michigan.gov/mde/-/media/Project/Websites/mde/Literacy/Content-Standards/Math_Standards.pdf?rev=1e793e2b1e314e4fa1abc754251b5dc9&hash=E928B99608A2C6642EA3E19E67CCCD39#:~:text=The%20Standards%20for%20Mathematical%20Practice,%E2%80%9Cprocesses%20and%20proficiencies%E2%80%9D%20with%20longstanding" target="_blank" rel="noopener">MAISA Math Curriculum Units</a></li>
+        <li id="footnote85" class="footnote-item"><a href="https://www.isbe.net/Pages/Standards-Courses.aspx#:~:text=The%20Illinois%20Learning%20Standards%20establish,each%20subject%20at%20each%20grade" target="_blank" rel="noopener">Illinois Learning Standards (ILS) for Mathematics</a></li>
+        <li id="footnote86" class="footnote-item"><a href="https://www.isbe.net/Pages/Model-Mathematics-Curriculum.aspx#:~:text=After%20completing%20the%20expectations%20specified,and%203%20high%20school%20courses" target="_blank" rel="noopener">ISBE Model Mathematics Curriculum</a></li>
+        <li id="footnote87" class="footnote-item"><a href="https://dese.mo.gov/college-career-readiness/curriculum/mathematics#:~:text=2017" target="_blank" rel="noopener">Missouri Learning Standards (MLS) for Math</a></li>
+        <li id="footnote88" class="footnote-item"><a href="https://dese.mo.gov/college-career-readiness/curriculum/mathematics#:~:text=%2A%20Grade%201%20,138" target="_blank" rel="noopener">DESE Expanded Expectations documents</a></li>
+        <li id="footnote89" class="footnote-item"><a href="https://dese.mo.gov/college-career-readiness/curriculum/mathematics#:~:text=Math%20Priority%20Standards" target="_blank" rel="noopener">DESE Priority Standards</a></li>
+        <li id="footnote90" class="footnote-item"><a href="https://www.azed.gov/standards-practices/k-12standards/mathematics-standards#:~:text=The%20Arizona%20Mathematics%20Standards%20define,of%20Education%20in%20December%202016" target="_blank" rel="noopener">Arizona Mathematics Standards</a></li>
+        <li id="footnote91" class="footnote-item"><a href="https://www.azed.gov/standards-practices/k-12standards/mathematics-standards#:~:text=PROGRESSION%20DOCUMENTS%20K,updating%295th%20Grade" target="_blank" rel="noopener">ADE Mathematics Progression Documents</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- Add a scroll-to-top button -->
+<a href="#" class="scroll-to-top" title="Scroll to top">↑</a>
+
+<script>
+  // Wait for all required scripts to load before initializing
+  window.addEventListener('load', function() {
+    // Check if THREE is loaded
+    if (typeof THREE === 'undefined') {
+      console.error('THREE.js library failed to load. Please check your internet connection and try again.');
+      return; // Don't proceed if THREE is not available
+    }
+    
+    initThree();
+
+    // Initialize scroll-to-top button
+    const scrollToTopButton = document.querySelector('.scroll-to-top');
+    scrollToTopButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Show/hide scroll button based on scroll position
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        scrollToTopButton.style.display = 'flex';
+      } else {
+        scrollToTopButton.style.display = 'none';
+      }
+    });
+  });
+
+  function initThree() {
+    try {
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('sphereCanvas'), alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      const textureLoader = new THREE.TextureLoader();
+      
+      // Use local image file instead of remote URL
+      const earthTexture = textureLoader.load('./The_earth_at_night.jpg', 
+        // Success callback
+        function(texture) {
+          console.log("Earth texture loaded successfully");
+        },
+        // Progress callback
+        undefined,
+        // Error callback
+        function(err) {
+          console.error("Error loading earth texture:", err);
+        }
+      );
+      
+      const sphereGeometry = new THREE.SphereGeometry(3, 32, 32);
+      const sphereMaterial = new THREE.MeshBasicMaterial({ map: earthTexture });
+      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+      scene.add(sphere);
+
+      camera.position.z = 8;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        sphere.rotation.y += 0.001; // Slow down rotation
+        renderer.render(scene, camera);
+      }
+      
+      animate();
+
+      if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.text-container h2, .text-container table, .text-container p, .text-container .footnotes').forEach((element, index) => {
+          gsap.from(element, {
+            opacity: 0,
+            y: 60,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: element,
+              start: "top 90%", // Slightly earlier trigger
+              end: "top 20%",
+              scrub: 1.5 // Smoother scrub effect
+            }
+          });
+        });
+
+        gsap.to(sphere.rotation, {
+          y: Math.PI * 2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".panel",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
+          }
+        });
+      }
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    } catch (error) {
+      console.error("Error initializing THREE.js scene:", error);
+    }
+  }
+</script>
+</body>
+</html>
